@@ -1,7 +1,8 @@
 let loop = true
 let riegoActual = 0
+let botonEmpezar = document.getElementById('botonEmpezar')
+let botonCaracteristicas = document.getElementById('botonCaracteristicas')
 
-//const nombres = ['filodendro', 'aralia', 'maranta', 'suculenta', 'singonio']
 const plantas = [
     {
         nombre: 'filodendro',
@@ -18,17 +19,18 @@ const plantas = [
 const nombresPlantas = plantas.map((planta) => planta.nombre);
 const nombresPlantasTexto = nombresPlantas.join(',')
 
-alert('bienvenido a cuida tu planta')
-let cuidaTuplanta = prompt('¿Quieres cuidar una planta? (si/no)').toLowerCase()
-if (cuidaTuplanta == 'si') {
-    let informacionPlanta = prompt('te gustaria saber las caracteristicas de cada planta (Si/No)? (ingresa no para continuar al cuidado de tu planta)').toLowerCase()
-    if (informacionPlanta == 'si') {
-        let quieroInformacion = prompt('¿de que planta quieres saber?' + nombresPlantasTexto).toLowerCase()
-        let encontrar = quieroInformacion
-        let encontrado = plantas.find((x) => x.nombre === encontrar)
-        alert('los cuidados de los ' + encontrado.nombre + ' son: riego de ' + encontrado.riego + ' y luz solar de ' + encontrado.luzSolar)
-    }
-    else {
+//no se bien como hacer que esto se ponga abajo de titulo y no abajo de todo
+let opcionesPlantas = document.createElement('h2')
+opcionesPlantas.innerHTML = `<h2>Puedes elegir entre todas las plantas que tenemos disponibles: ${nombresPlantasTexto}</h2>`;
+
+document.body.appendChild(opcionesPlantas);
+
+//COMIENZA EL JUEGO
+botonEmpezar.onclick = () => {
+
+    alert('bienvenido a cuida tu planta')
+    let cuidaTuplanta = prompt('¿Quieres cuidar una planta? (si/no)').toLowerCase()
+    if (cuidaTuplanta == 'si') {
 
         let tipoPlanta = prompt('¿que planta quieres cuidar?' + nombresPlantasTexto).toLowerCase();
         let plantaEncontrada = plantas.find((x) => x.nombre === tipoPlanta);
@@ -54,7 +56,7 @@ if (cuidaTuplanta == 'si') {
                 }
                 let regarNumero = parseInt(regar)
                 if (!isNaN(regarNumero)) {
-                    if (riegoActual > 0 && riegoActual < plantaEncontrada.riego && riegoActual + regarNumero < plantaEncontrada.riego) {
+                    if (riegoActual >= 0 && riegoActual < plantaEncontrada.riego && riegoActual + regarNumero <= plantaEncontrada.riego) {
                         riegoActual += regarNumero
                         alert(`regaste ${regarNumero} veces a ${nombrePlanta} ahora su riego total es de ${riegoActual}`)
                         alert('¿Quieres volver a regar a ' + nombrePlanta + '?')
@@ -73,14 +75,24 @@ if (cuidaTuplanta == 'si') {
 
         }
     }
+
+    else if (cuidaTuplanta == 'no') {
+        alert('no hay problema, que estes muy bien')
+    }
+
+    else {
+        alert('tu respuesta no es valida, debe ser si o no')
+    }
 }
 
-else if (cuidaTuplanta == 'no') {
-    alert('no hay problema, que estes muy bien')
+//CARACTERISTICAS
+
+botonCaracteristicas.onclick = () => {
+    let informacionPlanta = prompt('te gustaria saber las caracteristicas de cada planta (Si/No)? (ingresa no para continuar al cuidado de tu planta)').toLowerCase()
+    if (informacionPlanta == 'si') {
+        let quieroInformacion = prompt('¿de que planta quieres saber?' + nombresPlantasTexto).toLowerCase()
+        let encontrar = quieroInformacion
+        let encontrado = plantas.find((x) => x.nombre === encontrar)
+        alert('los cuidados de los ' + encontrado.nombre + ' son: riego de ' + encontrado.riego + ' y luz solar de ' + encontrado.luzSolar)
+    }
 }
-
-else {
-    alert('tu respuesta no es valida, debe ser si o no')
-}
-
-
