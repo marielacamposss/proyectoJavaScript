@@ -3,19 +3,32 @@ let riegoActual = 0
 let botonEmpezar = document.getElementById('botonEmpezar');
 let botonCaracteristicas = document.getElementById('botonCaracteristicas');
 const formularioNombre = document.getElementById('formularioNombre');
+const formularioTipoPlanta = document.getElementById('formularioTipoPlanta');
 const resultDiv = document.getElementById('result');
+const resultTipoPlanta = document.getElementById('resultTipoPlanta');
+const resultCaractPlanta = document.getElementById('resultCaractPlanta');
+
 const plantas = [
     {
         nombre: 'filodendro',
-        riego: 5,
-        luzSolar: 7
+        riego: 7,
+        luzSolar: 5,
+        imagen: 'img/filodendro.png'
     },
     {
         nombre: 'suculenta',
+        riego: 5,
+        luzSolar: 8,
+        imagen: 'img/suculenta.png'
+    },
+    {
+        nombre: 'cactus',
         riego: 3,
-        luzSolar: 9
+        luzSolar: 10,
+        imagen: 'img/cactus.png'
     }
 ];
+
 const nombresPlantas = plantas.map((planta) => planta.nombre);
 const nombresPlantasTexto = nombresPlantas.join(',');
 
@@ -53,6 +66,45 @@ if (localStorage.getItem('formData')) {
     fillResult();
 }
 
+//ELEGIR TIPO DE PLANTA
+formularioTipoPlanta.addEventListener('click', (e) => {
+    const tipoPlanta = document.querySelector('input[name="planta"]:checked').value;
+    if (tipoPlanta == 'filodendro') {
+        resultTipoPlanta.innerHTML = `
+        <p>Elegiste un ${tipoPlanta}</p>
+        <img src="img/filodendro.png" alt="" width="200px">
+      `;
+    } else if (tipoPlanta == 'cactus') {
+        resultTipoPlanta.innerHTML = `
+        <p>Elegiste un ${tipoPlanta}</p>
+        <img src="img/cactus.png" alt="" width="200px">
+      `;
+    } else if (tipoPlanta == 'suculenta') {
+        resultTipoPlanta.innerHTML = `
+        <p>Elegiste un ${tipoPlanta}</p>
+        <img src="img/suculenta.png" alt="" width="200px">
+      `;
+    }
+    const formObject2 = {
+        name: tipoPlanta,
+
+    };
+    localStorage.setItem('formData2', JSON.stringify(formObject2));
+    fillResult();
+});
+
+const tipoPlanta = JSON.parse(localStorage.getItem('formData2'))
+console.log(tipoPlanta)
+let plantaSeleccionada = plantas.find((x) => x.nombre === tipoPlanta.name);
+
+if (plantaSeleccionada != '') {
+    resultCaractPlanta.innerHTML = `
+    <p>el riego de ${plantaSeleccionada.nombre} es de ${plantaSeleccionada.riego} </p>
+               `
+}
+
+
+
 //COMIENZA EL JUEGO
 botonEmpezar.onclick = () => {
     const nombrePlanta = JSON.parse(localStorage.getItem('formData'))
@@ -70,29 +122,28 @@ botonEmpezar.onclick = () => {
         alert('elegiste un ' + tipoPlanta);
 
         while (loop) {
-            let regar = prompt('cuanto quieres regar a ' + nombrePlanta.name + '?' + 'maximo ' + plantaEncontrada.riego + '(Si quiere dejar de regar su planta escriba SALIR)').toLowerCase()
-            if (regar == 'salir') {
+            if (riegoActual == plantaEncontrada.riego) {
+                alert('Felicidades ' + nombrePlanta.name + ' Esta totalmente regada')
                 break
-            }
-            let regarNumero = parseInt(regar)
-            if (!isNaN(regarNumero)) {
-                if (riegoActual >= 0 && riegoActual < plantaEncontrada.riego && riegoActual + regarNumero <= plantaEncontrada.riego) {
-                    riegoActual += regarNumero
-                    alert(`regaste ${regarNumero} veces a ${nombrePlanta.name} ahora su riego total es de ${riegoActual}`)
-                    alert('¿Quieres volver a regar a ' + nombrePlanta.name + '?')
-                } else if (riegoActual > plantaEncontrada.riego) {
-                    alert('no puedes regar mas de' + plantaEncontrada.riego + ' veces a ' + nombrePlanta.name)
-                }
-                else if (riegoActual == plantaEncontrada.riego) {
-                    alert('Felicidades ' + nombrePlanta.name + ' Esta totalmente regada')
+            } else {
+                let regar = prompt('cuanto quieres regar a ' + nombrePlanta.name + '?' + 'maximo ' + plantaEncontrada.riego + '(Si quiere dejar de regar su planta escriba SALIR)').toLowerCase()
+                if (regar == 'salir') {
                     break
                 }
-            }
-            else {
-                alert('Debes ingresar un numero')
+                let regarNumero = parseInt(regar)
+                if (!isNaN(regarNumero)) {
+                    if (riegoActual >= 0 && riegoActual < plantaEncontrada.riego && riegoActual + regarNumero <= plantaEncontrada.riego) {
+                        riegoActual += regarNumero
+                        alert(`regaste ${regarNumero} veces a ${nombrePlanta.name} ahora su riego total es de ${riegoActual}`)
+                    } else if (riegoActual > plantaEncontrada.riego) {
+                        alert('no puedes regar mas de' + plantaEncontrada.riego + ' veces a ' + nombrePlanta.name)
+                    }
+                }
+                else {
+                    alert('Debes ingresar un numero')
+                }
             }
         }
-
     }
     else if (cuidaTuplanta == 'no') {
         alert('no hay problema, que estes muy bien')

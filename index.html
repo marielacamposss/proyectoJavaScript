@@ -24,12 +24,16 @@
     </div>
   </br>
 </br>
-    <h3 id="nombreElegido">
-      Para comenzar a cuidar tu planta presiona el siguiente boton:
+    <h3>
+      Selecciona que planta quieres cuidar
     </h3>
-    <div>
-    <img src="img/planta.png" width="100px"></img>
-  </div>
+    <form id="formularioTipoPlanta" target="_blank">    
+        <input type="radio" name="planta"  value="filodendro"> Filodendro<br>
+        <input type="radio" name="planta"  value="cactus">Cactus<br>
+        <input type="radio" name="planta"  value="suculenta">Suculenta    
+    </form>
+    <div id="resultTipoPlanta"> </div>
+  <div id="resultCaractPlanta"> </div>
     <button id="botonEmpezar">EMPEZAR</button>
     <h3 id="nombreElegido">
       Para conocer las caracteristicas de cada tipo de planta presiona el siguiente
