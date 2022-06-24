@@ -5,39 +5,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
   </head>
   <body>
-    <h1>HOLA BIENVENIDO A CUIDAR TU PLANTITA</h1>
-    <h2>¿Como quieres que se llame tu planta?</h2>
-    <div id="result"></div>
-    <div>
-      <form id="formularioNombre">
-        <label for="nombre">Nombre de tu planta</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nombre"
-          placeholder="Ingrese su nombre"
-        />
-      </form>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1>HOLA BIENVENIDO A CUIDAR TU PLANTITA</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <h2>¿Como quieres que se llame tu planta?</h2>
+      </div>
+      <div class="row">
+        <div class="col">
+          <form id="formularioNombre">
+            <label for="nombre">Nombre de tu planta</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              placeholder="Ingrese su nombre"
+            />
+          </form>
+        </div>
+      </div>
     </div>
-  </br>
-</br>
-    <h3>
-      Selecciona que planta quieres cuidar
-    </h3>
-    <form id="formularioTipoPlanta" target="_blank">    
-        <input type="radio" name="planta"  value="filodendro"> Filodendro<br>
-        <input type="radio" name="planta"  value="cactus">Cactus<br>
-        <input type="radio" name="planta"  value="suculenta">Suculenta    
+    <div class="container">
+      <div class="row">
+        <div class="col">
+    <h3>Selecciona que planta quieres cuidar</h3>
+  </div>
+    <div class="col">
+    <form id="formularioTipoPlanta" target="_blank">
+      <input type="radio" name="planta" value="filodendro" /> Filodendro<br />
+      <input type="radio" name="planta" value="cactus" />Cactus<br />
+      <input type="radio" name="planta" value="suculenta" />Suculenta
     </form>
-    <div id="resultTipoPlanta"> </div>
-  <div id="resultCaractPlanta"> </div>
-    <button id="botonRegar">REGAR</button>
+  </div>
+  </div>
+
+      </div>
+      <div class="container boxPrimary">
+        <div class="row">
+          <div class="col">
+            <img src="img/mataPlaga.png" class="mataPlaga" id="botonMataPlaga"></img>
+          </div>
+          <div class="col">
+      
+              <p id="result">NOMBRE:</p>        
+              
+    <div id="resultTipoPlanta"></div>
+    <div id="resultCaractPlanta"></div>
+  </div>
+  <div class="col">
+    <img src="img/regadera.png" class="botones" id="botonRegar"></img>
     <div id="resultRiegoPlanta"></div>
-    <button id="botonLuzSolar">DAR LUZ SOLAR</button>
+    <img src="img/sol.png" class="botones" id="botonLuzSolar"></img>
     <div id="resultLuzSolar"></div>
-    <script src="proyecto.js"></script>
+    <img src="img/abono.png" class="botones" id="botonAbono"></img>
+    <div id="resultAbono"></div>
+  </div>
+  </div>
+</div>
+<p>
+
+
+    <script src="js/proyecto.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/wow.min.js"></script>
   </body>
 </html>
