@@ -16,6 +16,7 @@ const resultCaractPlanta = document.getElementById('resultCaractPlanta');
 const resultRiegoPlanta = document.getElementById('resultRiegoPlanta');
 const resultLuzSolar = document.getElementById('resultLuzSolar');
 const resultAbono = document.getElementById('resultAbono');
+const resultPerrito = document.getElementById('fetchPerrito');
 
 const plantas = [
     {
@@ -106,7 +107,7 @@ formularioTipoPlanta.addEventListener('click', (e) => {
 });
 
 //CARACTERISTICAS
-if (sessionStorage != '') {
+if (JSON.parse(sessionStorage.getItem('tipoPlantaElegida'))) {
     const tipoPlanta = JSON.parse(sessionStorage.getItem('tipoPlantaElegida'))
     let plantaSeleccionada = plantas.find((x) => x.nombre === tipoPlanta.name);
 
@@ -179,3 +180,15 @@ if (sessionStorage != '') {
     }
 
 }
+
+//fetch, no logre encontrar alguna API de plantas, así que use una de perritos
+fetch('https://dog.ceo/api/breeds/image/random')
+    .then((resp) => resp.json())
+    .then((data) =>
+
+        resultPerrito.innerHTML = `
+        <p>Despues de cuidar una plantita, podrías intentarlo con un perrito:</p>
+    <img src="${data.message}" alt="" width="200px" id="planta">
+  `
+    )
+
