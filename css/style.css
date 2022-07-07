@@ -23,8 +23,13 @@ body {
     border: none;
     border-radius: 10px; }
     
+    .btn-green-2 {
+        color: white;
+        background-color:darkgreen;
+        padding: 5px;
+        border: none;
+        border-radius: 10px; }  
  p {
-    font-weight: 600;
     font-size: medium;
     color: darkgreen;
  }   
@@ -37,4 +42,24 @@ body {
  .plaga {
     position: absolute;
     z-index: 2;
+    }
+
+   
+    h3 {
+color: darkgreen;
+font-weight: 300;
+    }
+
+    h5{
+        color: black;
+        font-weight:900;
+    }
+
+    .titulo{
+        color: darkgreen;
+    }
+
+    .nombrePlanta{
+        color:darkgreen;
+        font-size: medium;
     }

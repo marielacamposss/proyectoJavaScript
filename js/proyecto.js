@@ -1,8 +1,10 @@
 let loop = true;
-let riegoActual = 0;
-let luzSolarActual = 0;
-let abonoActual = 0;
-
+let riegoActual = 1;
+let luzSolarActual = 1;
+let abonoActual = 1;
+let puntaje = 0;
+let empezarDenuevo = document.getElementById('empezarDenuevo')
+let botonEmpezar = document.getElementById('botonEmpezar');
 let botonRegar = document.getElementById('botonRegar');
 let botonLuzSolar = document.getElementById('botonLuzSolar');
 let botonAbono = document.getElementById('botonAbono')
@@ -17,6 +19,8 @@ const resultRiegoPlanta = document.getElementById('resultRiegoPlanta');
 const resultLuzSolar = document.getElementById('resultLuzSolar');
 const resultAbono = document.getElementById('resultAbono');
 const resultPerrito = document.getElementById('fetchPerrito');
+const resultPuntaje = document.getElementById('resultPuntaje');
+const resultAlerta = document.getElementById('resultAlerta');
 
 const plantas = [
     {
@@ -46,7 +50,6 @@ const nombresPlantas = plantas.map((planta) => planta.nombre);
 const nombresPlantasTexto = nombresPlantas.join(',');
 
 //PONERLE EL NOMBRE A LA PLANTA
-alert('Bienvenido a cuida tu planta')
 formularioNombre.addEventListener('submit', (e) => {
     e.preventDefault();
     const nombrePlanta = document.getElementById('nombre').value;
@@ -71,7 +74,7 @@ const verifyForm = (nombrePlanta) => {
 const fillResult = () => {
     const nombrePlantaElegido = JSON.parse(sessionStorage.getItem('nombrePlantaElegido'));
     resultDiv.innerHTML = `
-          <p> ${nombrePlantaElegido.name}</p>
+          <h3> ${nombrePlantaElegido.name}</h3>
         `;
 }
 
@@ -84,102 +87,149 @@ formularioTipoPlanta.addEventListener('click', (e) => {
     const tipoPlanta = document.querySelector('input[name="planta"]:checked').value;
     let plantaSeleccionada = plantas.find((x) => x.nombre === tipoPlanta);
 
-    //aca intente que si ya existe esta el tipo en session storage me la ponga pero no me funciono
-    //y nose como hacer que vuelva a marcar o quede seleccionado el radio button, lo mismo para cuando se selecciona otra necesito que vuelva a cambiarse todo porque se confunde
     if (sessionStorage.getItem('tipoPlantaElegido')) {
         resultTipoPlanta.innerHTML = `
         <img src="${plantaSeleccionada.imagen}" alt="" width="200px">
       `};
-
-    //acá cambie el codigo para que fuera solo uno para las tres plantas y fotos
     if (plantaSeleccionada) {
         resultTipoPlanta.innerHTML = `
         <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">
       `;
     }
-
     const formObject2 = {
         name: tipoPlanta,
     };
-
     sessionStorage.setItem('tipoPlantaElegida', JSON.stringify(formObject2));
-
 });
 
-//CARACTERISTICAS
-if (JSON.parse(sessionStorage.getItem('tipoPlantaElegida'))) {
-    const tipoPlanta = JSON.parse(sessionStorage.getItem('tipoPlantaElegida'))
-    let plantaSeleccionada = plantas.find((x) => x.nombre === tipoPlanta.name);
+empezarDenuevo.addEventListener('click', (e) => {
+    window.location.reload()
+})
 
-    if (plantaSeleccionada != '') {
-        resultCaractPlanta.innerHTML = `
-    <button class="btn-green" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Características
-  </button>
-</p>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-  el riego maximo de ${plantaSeleccionada.nombre} es de ${plantaSeleccionada.riego} y la cantidad maxima de luz solar que puede recibir es de ${plantaSeleccionada.luzSolar} 
-  </div>
-</div>
-              `
-    }
-
-    //Acá me comentaste que hiciera solo un codigo para las dos cosas pero me exploto la cabeza y no se me ocurrio como hacerlo
-    //RIEGO
-    botonRegar.onclick = () => {
-        if (riegoActual == plantaSeleccionada.riego) {
-            alert('Felicidades ' + plantaSeleccionada.nombre + ' Esta totalmente regada')
-        } else {
-            riegoActual += 1
-            resultRiegoPlanta.innerHTML = `
-    <p> ${riegoActual} /${plantaSeleccionada.riego} </p>
-               `
-        }
-    }
-
-    //LUZ SOLAR
-    botonLuzSolar.onclick = () => {
-        if (luzSolarActual == plantaSeleccionada.luzSolar) {
-            alert('Felicidades ' + plantaSeleccionada.nombre + ' Esta totalmente asoleada')
-        } else {
-            luzSolarActual += 1
+botonEmpezar.addEventListener('click', (e) => {
+    //PLANTA
+    if (JSON.parse(sessionStorage.getItem('tipoPlantaElegida'))) {
+        const tipoPlanta = JSON.parse(sessionStorage.getItem('tipoPlantaElegida'))
+        let plantaSeleccionada = plantas.find((x) => x.nombre === tipoPlanta.name);
+        resultTipoPlanta.innerHTML = `
+    <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">`
+        //BOTON CARACTERÍSTICAS   
+        if (plantaSeleccionada != '') {
+            resultCaractPlanta.innerHTML = `
+                    <button class="btn-green m-2 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Características
+                </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                <div class="card card-body m-2 p-2">
+                el riego maximo de ${plantaSeleccionada.nombre} es de ${plantaSeleccionada.riego} y la cantidad maxima de luz solar que puede recibir es de ${plantaSeleccionada.luzSolar} 
+                </div>
+                </div>`
             resultLuzSolar.innerHTML = `
+              <p> ${luzSolarActual} /${plantaSeleccionada.luzSolar} </p>`
+            resultRiegoPlanta.innerHTML = `
+                         <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
+            resultAbono.innerHTML = `
+                                    <p> ${abonoActual} /${plantaSeleccionada.abono} </p>`
+        }
+        //BOTON RIEGO
+        botonRegar.onclick = () => {
+            if (riegoActual == plantaSeleccionada.riego) {
+                alert('planta totalmente regada')
+            } else {
+                riegoActual += 1
+                resultRiegoPlanta.innerHTML = `
+    <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
+            }
+        }
+        //BOTON LUZ SOLAR
+        botonLuzSolar.onclick = () => {
+            if (luzSolarActual == plantaSeleccionada.luzSolar) {
+                alert('planta totalmente asoleada')
+            } else if (luzSolarActual <= -1) {
+                alert('Tu planta se murio por falta de luz')
+            } else {
+                luzSolarActual += 1
+                resultLuzSolar.innerHTML = `
     <p> ${luzSolarActual} /${plantaSeleccionada.luzSolar} </p>
                `
+            }
         }
-    }
-    //ABONO
-    botonAbono.onclick = () => {
-        if (abonoActual == plantaSeleccionada.abono) {
-            alert('Felicidades ' + plantaSeleccionada.nombre + ' Esta totalmente abonada')
-        } else {
-            abonoActual += 1
-            resultAbono.innerHTML = `
+        //BOTON ABONO
+        botonAbono.onclick = () => {
+            if (abonoActual == plantaSeleccionada.abono) {
+                alert('Planta totalmente regada')
+            } else {
+                abonoActual += 1
+                resultAbono.innerHTML = `
     <p> ${abonoActual} /${plantaSeleccionada.abono} </p>
                `
+            }
+        }
+        //PUNTAJE
+        resultPuntaje.innerHTML = `
+        <p>${puntaje}</p>`
+
+        //PLAGA 
+        function aparecePlaga() {
+            resultTipoPlanta.innerHTML = `
+            <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">
+     <img src="img/plaga.png" alt="" width="50px" id="plaga">`
+            //DISMINUCION LUZ SOLAR
+            luzSolarActual -= 1
+            if (luzSolarActual <= 0) {
+                resultLuzSolar.innerHTML = `
+                <p> ${luzSolarActual} /${plantaSeleccionada.luzSolar} </p>`
+                resultTipoPlanta.innerHTML = `
+                           <img src="img/plantaMuerta.png" alt="" width="200px" id="planta">`
+            } else {
+                resultLuzSolar.innerHTML = `
+                <p> ${luzSolarActual} /${plantaSeleccionada.luzSolar} </p>`
+            }
+            //DISMINUCION ABONO
+            abonoActual -= 1
+            if (abonoActual <= 0) {
+                resultAbono.innerHTML = `
+            <p> ${abonoActual} /${plantaSeleccionada.abono} </p> `
+                resultTipoPlanta.innerHTML = `
+            <img src="img/plantaMuerta.png" alt="" width="200px" id="planta"> `
+            } else {
+                resultAbono.innerHTML = `
+            <p> ${abonoActual} /${plantaSeleccionada.abono} </p>`
+            }
+            //DISMINUCION RIEGO
+            riegoActual -= 1
+            if (riegoActual <= 0) {
+                resultRiegoPlanta.innerHTML = `
+                <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
+                resultTipoPlanta.innerHTML = `
+                <img src="img/plantaMuerta.png" alt="" width="200px" id="planta">`
+            }
+            resultRiegoPlanta.innerHTML = `
+            <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
+        }
+        //FUNCIÓN LOOP Y TIEMPO RANDOM PARA BICHO Y DISMINUCIÓN DE VARIABLES DE AGUA, LUZ Y ABONO
+        (function loop() {
+            var rand = Math.round(Math.random() * (20000 - 1000)) + 1000;
+            setTimeout(function () {
+                aparecePlaga();
+                loop();
+            }, rand);
+        }());
+
+        //BOTON PARA ELIMINAR PLAGA
+        botonMataPlaga.onclick = () => {
+            {
+                puntaje += 200
+                resultPuntaje.innerHTML = `
+                <p>${puntaje}</p>`
+                resultTipoPlanta.innerHTML = `
+        <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">`
+            }
         }
     }
+})
 
-    //Me gustaria que esto fuera como un temporizador en el futuro
-    resultTipoPlanta.addEventListener("mouseleave", function (event) {
-        if (event) {
-            resultTipoPlanta.innerHTML = `
-       
-        <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">
-        <img src="img/plaga.png" alt="" width="50px" id="plaga">
-   
-      `}
-    }, false);
-    botonMataPlaga.onclick = () => {
-        {
-            resultTipoPlanta.innerHTML = `
-        <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">
-
-      `}
-    }
-
-}
 
 //fetch, no logre encontrar alguna API de plantas, así que use una de perritos
 fetch('https://dog.ceo/api/breeds/image/random')

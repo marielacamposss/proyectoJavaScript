@@ -7,54 +7,72 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function(){
+          $("#myModal").modal('show');
+      });
+  </script>
   </head>
+
   <body>
-    <div class="container">
-      <div class="row">
+  
+    <!-- Button trigger modal -->
+<!-- Modal -->
+
+<div class="modal modalColor" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Características de tu planta</h5>
+      </div>
+      <div class="modal-body">
+        <h3 class="m-2">¿Como quieres que se llame tu planta?</h3>
+        <form id="formularioNombre">
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            placeholder="Ingrese el nombre de la planta y presione enter"
+          />
+        </form>
+        <h3 class="m-2">Selecciona que planta quieres cuidar</h3>
+      </div>
         <div class="col">
-          <h1>CUIDA TU PLANTITA</h1>
-        </div>
+        <form id="formularioTipoPlanta" target="_blank">
+          <input type="radio" name="planta" value="filodendro" /> Filodendro<br />
+          <input type="radio" name="planta" value="cactus" />Cactus<br />
+          <input type="radio" name="planta" value="suculenta" />Suculenta
+        </form>
       </div>
-      <div class="row">
-        <div class="col m-2"></div>
-        <h3>¿Como quieres que se llame tu planta?</h3>
-      </div>
-      <div class="row">
-        <div class="col m-2">
-          <form id="formularioNombre">
-            <label for="nombre">Nombre de tu planta</label>
-            <input
-              type="text"
-              class="form-control"
-              id="nombre"
-              placeholder="Ingrese su nombre"
-            />
-          </form>
-        </div>
+      <div class="modal-footer">
+        <button type="button" id="botonEmpezar" class="btn-green" data-bs-dismiss="modal">Comenzar</button>
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col m-2">
-    <h3>Selecciona que planta quieres cuidar</h3>
   </div>
-    <div class="col">
-    <form id="formularioTipoPlanta" target="_blank">
-      <input type="radio" name="planta" value="filodendro" /> Filodendro<br />
-      <input type="radio" name="planta" value="cactus" />Cactus<br />
-      <input type="radio" name="planta" value="suculenta" />Suculenta
-    </form>
-  </div>
-  </div>
+</div>
 
+      <div class="container">
+          <h1 class="titulo m-2 p-2">CUIDA TU PLANTITA</h1>              
       </div>
+      <div id="resultAlerta">
+        
+      </div>   
+
+<div class="segundaParte">
       <div class="container boxPrimary">
         <div class="row">
-          <div class="col p-2 m-2">
+          <div class="col m-2 p-2">
+            <h3>PTS:</h3> 
+            <div id="resultPuntaje">
+            </div>
+          <div> <button class="btn-green-2" id="empezarDenuevo"> Volver a jugar</button></div>
+          <div class="m-2 p-2">
             <img src="img/mataPlaga.png" class="mataPlaga" id="botonMataPlaga"></img>
           </div>
+        </div>
+
           <div class="col">
-      
               <p id="result">NOMBRE:</p>        
               
     <div id="resultTipoPlanta"></div>
@@ -73,7 +91,7 @@
 <div id="fetchPerrito">
 
 </div>
-<p>
+</div>
 
     <script src="js/proyecto.js"></script>
     <script src="js/bootstrap.min.js"></script>
