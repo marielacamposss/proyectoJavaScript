@@ -31,7 +31,7 @@ body {
         border-radius: 10px; }  
  p {
     font-size: medium;
-    color: darkgreen;
+    color: black;
  }   
   
  .planta {
@@ -39,6 +39,11 @@ body {
  z-index: 1;
  }
 
+ .plantaMuerta {
+    position: absolute;
+    z-index: 1;
+    }
+   
  .plaga {
     position: absolute;
     z-index: 2;

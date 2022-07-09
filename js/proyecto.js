@@ -28,26 +28,45 @@ const plantas = [
         riego: 7,
         luzSolar: 5,
         abono: 3,
-        imagen: 'img/filodendro.png'
+        imagen: 'img/filodendro.png',
+        descripcion: 'FILODENDRO: Son arbustos o árboles pequeños, la mayoría de los cuales son capaces de trepar sobre otras plantas. Estas plantas no toleran el sol directo y requieren de bastante riego y humedad ambiental.'
     },
     {
         nombre: 'suculenta',
         riego: 5,
         luzSolar: 8,
         abono: 2,
-        imagen: 'img/suculenta.png'
+        imagen: 'img/suculenta.png',
+        descripcion: 'SUCULENTAS: La suculentas son un grupo de plantas que almacenan el agua en su hojas, tallos y raíces. Prosperan en climas secos y poco húmedos'
     },
     {
         nombre: 'cactus',
         riego: 3,
         luzSolar: 10,
         abono: 1,
-        imagen: 'img/cactus.png'
+        imagen: 'img/cactus.png',
+        descripcion: 'CACTUS: Los cactus forman parte de la familia de las suculentas, esto se debe a que almacenan agua. Su característica principal es que poseen una yema axilar donde crecen las espinas'
     }
 ];
 
 const nombresPlantas = plantas.map((planta) => planta.nombre);
 const nombresPlantasTexto = nombresPlantas.join(',');
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
+
+$(document).ready(function () {
+    $("#myModal").modal('show');
+});
+
 
 //PONERLE EL NOMBRE A LA PLANTA
 formularioNombre.addEventListener('submit', (e) => {
@@ -122,7 +141,7 @@ botonEmpezar.addEventListener('click', (e) => {
                 </p>
                 <div class="collapse" id="collapseExample">
                 <div class="card card-body m-2 p-2">
-                el riego maximo de ${plantaSeleccionada.nombre} es de ${plantaSeleccionada.riego} y la cantidad maxima de luz solar que puede recibir es de ${plantaSeleccionada.luzSolar} 
+              ${plantaSeleccionada.descripcion} 
                 </div>
                 </div>`
             resultLuzSolar.innerHTML = `
@@ -135,7 +154,15 @@ botonEmpezar.addEventListener('click', (e) => {
         //BOTON RIEGO
         botonRegar.onclick = () => {
             if (riegoActual == plantaSeleccionada.riego) {
-                alert('planta totalmente regada')
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Planta totalmente regada'
+                })
+            } else if (abonoActual <= 0 || luzSolarActual <= 0 || riegoActual <= 0) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Tu planta esta muerta'
+                })
             } else {
                 riegoActual += 1
                 resultRiegoPlanta.innerHTML = `
@@ -145,9 +172,15 @@ botonEmpezar.addEventListener('click', (e) => {
         //BOTON LUZ SOLAR
         botonLuzSolar.onclick = () => {
             if (luzSolarActual == plantaSeleccionada.luzSolar) {
-                alert('planta totalmente asoleada')
-            } else if (luzSolarActual <= -1) {
-                alert('Tu planta se murio por falta de luz')
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Planta totalmente asoleada'
+                })
+            } else if (abonoActual <= 0 || luzSolarActual <= 0 || riegoActual <= 0) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Tu planta esta muerta'
+                })
             } else {
                 luzSolarActual += 1
                 resultLuzSolar.innerHTML = `
@@ -158,7 +191,15 @@ botonEmpezar.addEventListener('click', (e) => {
         //BOTON ABONO
         botonAbono.onclick = () => {
             if (abonoActual == plantaSeleccionada.abono) {
-                alert('Planta totalmente regada')
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Planta totalmente abonada'
+                })
+            } else if (abonoActual <= 0 || luzSolarActual <= 0 || riegoActual <= 0) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Tu planta esta muerta'
+                })
             } else {
                 abonoActual += 1
                 resultAbono.innerHTML = `
@@ -175,51 +216,54 @@ botonEmpezar.addEventListener('click', (e) => {
             resultTipoPlanta.innerHTML = `
             <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">
      <img src="img/plaga.png" alt="" width="50px" id="plaga">`
-            //DISMINUCION LUZ SOLAR
-            luzSolarActual -= 1
-            if (luzSolarActual <= 0) {
+
+            //DISMINUCION LUZ SOLAR, ABONO, RIEGO
+            luzSolarActual -= 1;
+            abonoActual -= 1;
+            riegoActual -= 1;
+
+            if (luzSolarActual <= 0 || abonoActual <= 0 || riegoActual <= 0) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Tu planta se murio'
+                })
+                resultAbono.innerHTML = `
+                <p> - / - </p> `
                 resultLuzSolar.innerHTML = `
-                <p> ${luzSolarActual} /${plantaSeleccionada.luzSolar} </p>`
+                <p> - / - </p>`
+                resultRiegoPlanta.innerHTML = `
+                <p> - / - </p>`
                 resultTipoPlanta.innerHTML = `
-                           <img src="img/plantaMuerta.png" alt="" width="200px" id="planta">`
+                           <img src="img/plantaMuerta.png" alt="" width="200px" id="plantaMuerta">`
             } else {
                 resultLuzSolar.innerHTML = `
                 <p> ${luzSolarActual} /${plantaSeleccionada.luzSolar} </p>`
+                resultAbono.innerHTML = `
+                <p> ${abonoActual} /${plantaSeleccionada.abono} </p>`
+                resultRiegoPlanta.innerHTML = `
+                 <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
             }
             //DISMINUCION ABONO
-            abonoActual -= 1
-            if (abonoActual <= 0) {
-                resultAbono.innerHTML = `
-            <p> ${abonoActual} /${plantaSeleccionada.abono} </p> `
-                resultTipoPlanta.innerHTML = `
-            <img src="img/plantaMuerta.png" alt="" width="200px" id="planta"> `
-            } else {
-                resultAbono.innerHTML = `
-            <p> ${abonoActual} /${plantaSeleccionada.abono} </p>`
-            }
-            //DISMINUCION RIEGO
-            riegoActual -= 1
-            if (riegoActual <= 0) {
-                resultRiegoPlanta.innerHTML = `
-                <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
-                resultTipoPlanta.innerHTML = `
-                <img src="img/plantaMuerta.png" alt="" width="200px" id="planta">`
-            }
-            resultRiegoPlanta.innerHTML = `
-            <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`
+
         }
         //FUNCIÓN LOOP Y TIEMPO RANDOM PARA BICHO Y DISMINUCIÓN DE VARIABLES DE AGUA, LUZ Y ABONO
-        (function loop() {
-            var rand = Math.round(Math.random() * (20000 - 1000)) + 1000;
-            setTimeout(function () {
-                aparecePlaga();
-                loop();
-            }, rand);
-        }());
+
+        if (!!document.getElementById("plantaMuerta")) {
+            clearTimeout(rand);
+        } else {
+            (function loop() {
+                var rand = Math.round(Math.random() * (20000 - 1000)) + 1000;
+                setTimeout(function () {
+                    aparecePlaga();
+                    loop();
+                }, rand);
+            }());
+        }
 
         //BOTON PARA ELIMINAR PLAGA
+
         botonMataPlaga.onclick = () => {
-            {
+            if (!!document.getElementById("plaga")) {
                 puntaje += 200
                 resultPuntaje.innerHTML = `
                 <p>${puntaje}</p>`
@@ -227,6 +271,7 @@ botonEmpezar.addEventListener('click', (e) => {
         <img src="${plantaSeleccionada.imagen}" alt="" width="200px" id="planta">`
             }
         }
+
     }
 })
 

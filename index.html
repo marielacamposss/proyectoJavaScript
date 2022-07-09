@@ -7,12 +7,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="https://unpkg.com/sweetalert2@11.4.20/dist/sweetalert2.all.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function(){
-          $("#myModal").modal('show');
-      });
-  </script>
   </head>
 
   <body>
@@ -20,12 +16,17 @@
     <!-- Button trigger modal -->
 <!-- Modal -->
 
-<div class="modal modalColor" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal modalColor" data-bs-backdrop="static" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Características de tu planta</h5>
+        <div class="row">
+          <div class="col">
+        <h3>¿Como jugar?</h3>
+        <p>Este juego consiste en mantener a tu planta viva el mayor tiempo posible, para esto siempre debes mantener sus niveles de ABONO, LUZ Y RIEGO altos. Iras sumando puntos cada vez que elimines la plaga que ira apareciendo a lo largo del juego. si cualquiera de sus niveles de ABONO, LUZ O RIEGO llega a 0, la planta se morirá.</p>
       </div>
+      </div>
+    </div>
       <div class="modal-body">
         <h3 class="m-2">¿Como quieres que se llame tu planta?</h3>
         <form id="formularioNombre">
@@ -38,6 +39,7 @@
         </form>
         <h3 class="m-2">Selecciona que planta quieres cuidar</h3>
       </div>
+      
         <div class="col">
         <form id="formularioTipoPlanta" target="_blank">
           <input type="radio" name="planta" value="filodendro" /> Filodendro<br />
@@ -45,7 +47,7 @@
           <input type="radio" name="planta" value="suculenta" />Suculenta
         </form>
       </div>
-      <div class="modal-footer">
+<div class="m-2 p-2">
         <button type="button" id="botonEmpezar" class="btn-green" data-bs-dismiss="modal">Comenzar</button>
       </div>
     </div>
