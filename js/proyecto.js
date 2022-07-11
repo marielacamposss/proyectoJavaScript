@@ -21,7 +21,6 @@ const resultPuntaje = document.getElementById('resultPuntaje');
 const resultAlerta = document.getElementById('resultAlerta');
 const modal = new bootstrap.Modal(document.getElementById('myModal'));
 modal.show();
-
 const plantas = [
   {
     nombre: 'filodendro',
@@ -51,7 +50,6 @@ const plantas = [
       'CACTUS: Los cactus forman parte de la familia de las suculentas, esto se debe a que almacenan agua. Su característica principal es que poseen una yema axilar donde crecen las espinas',
   },
 ];
-
 const nombresPlantas = plantas.map((planta) => planta.nombre);
 const nombresPlantasTexto = nombresPlantas.join(',');
 const Toast = Swal.mixin({
@@ -74,13 +72,13 @@ const fillResult = () => {
           <h3> ${nombrePlantaElegido.name}</h3>
         `;
 };
-
+//BOTON MEPEZAR DE NUEVO
 empezarDenuevo.addEventListener('click', (e) => {
   e.preventDefault();
   sessionStorage.clear();
   location.reload();
 });
-
+//BOTON COMENZAR
 botonEmpezar.addEventListener('click', (e) => {
   const nombrePlanta = document.getElementById('nombre').value;
   const tipoPlanta = document.querySelector(
@@ -237,7 +235,6 @@ const playGame = () => {
         resultRiegoPlanta.innerHTML = `
                  <p> ${riegoActual} /${plantaSeleccionada.riego} </p>`;
       }
-      //DISMINUCION ABONO
     }
     //FUNCIÓN LOOP Y TIEMPO RANDOM PARA BICHO Y DISMINUCIÓN DE VARIABLES DE AGUA, LUZ Y ABONO
 
@@ -254,7 +251,6 @@ const playGame = () => {
     }
 
     //BOTON PARA ELIMINAR PLAGA
-
     botonMataPlaga.onclick = () => {
       if (!!document.getElementById('plaga')) {
         puntaje += 200;
@@ -266,8 +262,6 @@ const playGame = () => {
     };
   }
 };
-
-
 
 //fetch, no logre encontrar alguna API de plantas, así que use una de perritos
 fetch('https://dog.ceo/api/breeds/image/random')
